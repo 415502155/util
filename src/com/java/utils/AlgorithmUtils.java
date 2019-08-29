@@ -90,6 +90,15 @@ public class AlgorithmUtils {
 		int scale = 1;
 		String div = div("10.111", "2", scale);
 		System.out.println("10.111/2的结果保留 " + scale + "位, result = " + div);
+		long a = (long) 1234567894578123419.11;
+		long b = (long) 1235565321856567828.22;
+		              //9223372036854775807
+		System.out.println(a);
+		System.out.println(b);
+		long c = a+b;
+		System.out.println(" a + b =  " + c);
+		String add = add(String.valueOf(a), String.valueOf(b));
+		System.out.println("add = " + add);
 		//BigDecimal setScale = new BigDecimal(div).setScale(5, BigDecimal.ROUND_HALF_UP);
 		//System.out.println("aaaa :" + setScale.toString());
 	}
