@@ -4,9 +4,13 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
 
 public class DateUtils {
 	/***
@@ -150,23 +154,161 @@ public class DateUtils {
     public static Timestamp getCurrentTimestamp() {
         return new Timestamp(System.currentTimeMillis());
     }
+    /***
+     *@ 返回指定日期时间段的所有时间
+     *@param start
+     *@param end
+     *@return ["2019-02-25","2019-02-26","2019-02-27","2019-02-28","2019-03-01","2019-03-02","2019-03-03"]
+     */
+    public static List<String> betweenStartAndEndDate(Date start, Date end) {
+    	List<String> stringDate = new ArrayList<String>();
+        stringDate.add(ymdFormatDate(start));
+        Calendar calBegin = Calendar.getInstance();
+        // 使用给定的 Date 设置此 Calendar 的时间     
+        calBegin.setTime(start);
+        Calendar calEnd = Calendar.getInstance();
+        // 使用给定的 Date 设置此 Calendar 的时间     
+        calEnd.setTime(end);
+        // 测试此日期是否在指定日期之后     
+        while (end.after(calBegin.getTime())) {
+            // 根据日历的规则，为给定的日历字段添加或减去指定的时间量     
+            calBegin.add(Calendar.DAY_OF_MONTH, 1);
+            stringDate.add(ymdFormatDate(calBegin.getTime()));
+        }
+    	return stringDate;
+    }
+    /***
+     * @返回当前时间前一天
+     * @return
+     */
+    public static String yesterdayYMD() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        String yesterday = ymdFormatDate(cal.getTime());
+        return yesterday;
+    }
+    /***
+     * 
+     * @param start
+     * @param end
+     * @return
+     * @throws ParseException
+     */
+    public static int daysBetween(Date start, Date end) throws ParseException {
+        //年月日格式的date
+        String startDate = ymdFormatDate(start);
+        String endDate = ymdFormatDate(end);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(start);
+        long time1 = cal.getTimeInMillis();
+        cal.setTime(end);
+        long time2 = cal.getTimeInMillis();
+        long between_days = (time2 - time1) / (1000 * 3600 * 24);
+        return Integer.parseInt(String.valueOf(between_days));
+    }
+
+    /**
+     * 设置cal日期为该日开始时刻
+     *
+     * @param cal
+     * @return
+     */
+    public static String setStartOfDay(Date day) {
+    	Calendar cal = Calendar.getInstance();
+        cal.setTime(day);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        Date time = cal.getTime();
+        return ymdhmsFormatDate(time);
+    }
+
+    /**
+     * @设置cal日期为该日最后时刻
+     *
+     * @param day
+     * @return
+     */
+    public static String setEndOfDay(Date day) {
+    	Calendar cal = Calendar.getInstance();
+        cal.setTime(day);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        Date time = cal.getTime();
+        return ymdhmsFormatDate(time);
+    }
+    
+    /**
+     * @date转Calendar实例
+     *
+     * @param date
+     * @return
+     */
+    public static Calendar calendarOf(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
+    }
+
+    /**
+     * @毫秒转Calendar实例
+     *
+     * @param millseconds
+     * @return
+     */
+    public static Calendar calendarOf(long millseconds) {
+        return calendarOf(new Date(millseconds));
+    }
     
     /***
-     * 测试
+     * @测试
      * @param args
+     * @throws ParseException 
      */
-    public static void main(String[] args) {
+    @SuppressWarnings("static-access")
+	public static void main(String[] args) throws ParseException {
+    	//設置某時間當天最晚時間
+    	String setEndOfDay = setEndOfDay(new Date());
+    	System.out.println("今天的最後時間 ：" + setEndOfDay);
+    	
+    	//設置某時間當天開始時間
+    	String setStartOfDay = setStartOfDay(new Date());
+    	System.out.println("今天的開始時間 ：" + setStartOfDay);
+    	
+    	//返回指定日期时间段的所有时间
+    	String start = "2019-02-25";
+    	String end = "2019-03-03";
+    	Date startYMD = stringFormatDateYMD(start);
+    	Date endYMD = stringFormatDateYMD(end);
+    	List<String> betweenStartAndEndDate = betweenStartAndEndDate(startYMD, endYMD);
+    	JSONObject jsonObject = new JSONObject();
+    	System.out.println(jsonObject.toJSONString(betweenStartAndEndDate));
+    	System.out.println(yesterdayYMD());
+    	System.out.println(daysBetween(startYMD, endYMD));
     	//字符串 yyyy-mm-dd HH:mm:ss转时间 Date
-    	Date stringFormatDate = stringFormatDateYMDHMS("2018-09-09 10:10:10");
-    	System.out.println(stringFormatDate);
+		/*
+		 * Date stringFormatDate = stringFormatDateYMDHMS("2018-09-09 10:10:10");
+		 * System.out.println(stringFormatDate);
+		 */
+    	
     	//时间 yyyy-mm-dd HH:mm:ss转 字符串 String
-    	String ymdhmsFormatDate = ymdhmsFormatDate(stringFormatDate);
-    	System.out.println(ymdhmsFormatDate);
+		/*
+		 * String ymdhmsFormatDate = ymdhmsFormatDate(stringFormatDate);
+		 * System.out.println(ymdhmsFormatDate);
+		 */
+    	
     	//某时间之前两天的时间
-    	String afewDaysBeforeOrAfter = afewDaysBeforeOrAfter("2019-08-26 10:00:00", 1, -2);
-    	System.out.println(afewDaysBeforeOrAfter);
+		/*
+		 * String afewDaysBeforeOrAfter = afewDaysBeforeOrAfter("2019-08-26 10:00:00",
+		 * 1, -2); System.out.println(afewDaysBeforeOrAfter);
+		 */
+    	
     	//某时间之后两月的时间
-    	String afewMonthsBeforeOrAfter = afewMonthsBeforeOrAfter("2019-08-26 10:00:00", 1, 2);
-    	System.out.println(afewMonthsBeforeOrAfter);
+		/*
+		 * String afewMonthsBeforeOrAfter =
+		 * afewMonthsBeforeOrAfter("2019-08-26 10:00:00", 1, 2);
+		 * System.out.println(afewMonthsBeforeOrAfter);
+		 */
 	}
 }
