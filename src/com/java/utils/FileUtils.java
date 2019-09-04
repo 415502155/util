@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
@@ -315,11 +316,11 @@ public class FileUtils {
      * @param file
      * @return
      */
-    public static String getFileContent(File file) {
+    public static String getFileContent(File file, String codeFormat ) {
         StringBuilder fileContent = new StringBuilder();
         try {
             if (file.isFile() && file.exists()) {
-                InputStreamReader read = new InputStreamReader(new FileInputStream(file), "UTF-8");
+                InputStreamReader read = new InputStreamReader(new FileInputStream(file), codeFormat);
                 BufferedReader reader = new BufferedReader(read);
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -332,5 +333,85 @@ public class FileUtils {
         }
         return fileContent.toString();
     }
+    
+    public static String getCode(String path) throws Exception {
+        InputStream inputStream = new FileInputStream(path);
+        byte[] head = new byte[3];
+        inputStream.read(head);
+        String code = "gb2312";  //或GBK
+        if (head[0] == -1 && head[1] == -2 )
+            code = "UTF-16";
+        else if (head[0] == -2 && head[1] == -1 )
+            code = "Unicode";
+        else if(head[0]==-17 && head[1]==-69 && head[2] ==-65)
+            code = "UTF-8";
+        inputStream.close();
+        System.out.println(code);
+        return code;
+    }
 
+    /**
+     * 读取文件内容
+     *
+     * @param file
+     * @return
+     */
+    public static String getTimesByWord(File file, String codeFormat, String word) {
+        StringBuilder fileContent = new StringBuilder();
+        try {
+            if (file.isFile() && file.exists()) {
+                InputStreamReader read = new InputStreamReader(new FileInputStream(file), codeFormat);
+                BufferedReader reader = new BufferedReader(read);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    fileContent.append(line);
+                }
+                read.close();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        int cs = 0;
+        String content = fileContent.toString();
+        System.out.println("content :" + content);
+        int indexOf = content.indexOf(word);
+        if (indexOf == -1) {
+        	return "文档中没有出现过该字符转 ：" + word;
+        } else {
+        	while (indexOf != -1) {
+        		indexOf = content.indexOf(word, indexOf+1);
+        		cs++;
+        	}
+        }
+        System.out.println("关键词出现的次数 ：" + cs);
+        return fileContent.toString();
+    }
+
+    public static void main(String[] args) throws Exception {
+    	/***
+    	 * @讀取文件内容
+    	 */
+		String filePath = "C:\\sjwy\\text\\201909040934.txt";
+		File file = new File(filePath);
+		String codeFormat = getCode(filePath);
+		String fileContent = getFileContent(file, codeFormat);
+		System.out.println(fileContent);
+		/***
+		 * @寫入文件内容
+		 */
+		String path = "C:\\sjwy\\text\\";
+		String name = "201909040954.txt";
+		String content = "当前时间为2019-09-04 09:54:00, 天气晴。";
+		String fullPath = path + name;
+		int fileAppend = fileAppend(fullPath, content);
+		
+		/***
+		 * @获取文件‘关键词’的次数
+		 */
+		String filePath2 = "C:\\sjwy\\text\\20190904.txt";
+		File file2 = new File(filePath2);
+		String word = "中国";
+		String codeFormat2 = getCode(filePath2);
+		getTimesByWord(file2, codeFormat2, word);
+	}
 }
