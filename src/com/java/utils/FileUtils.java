@@ -9,9 +9,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 文件工具类
  */
+@Slf4j
 public class FileUtils {
 
     /**
@@ -43,6 +46,7 @@ public class FileUtils {
             return file;
         } catch (Exception e) {
             e.printStackTrace();
+            log.info("Create new file Exception", e);
             return null;
         }
     }
@@ -78,6 +82,7 @@ public class FileUtils {
             return 0;
         } catch (Exception e) {
             e.printStackTrace();
+            log.info("Create new file Exception", e);
             return -1;
         }
     }
@@ -376,7 +381,8 @@ public class FileUtils {
         System.out.println("content :" + content);
         int indexOf = content.indexOf(word);
         if (indexOf == -1) {
-        	return "文档中没有出现过该字符转 ：" + word;
+            log.info("This keyword does not appear in the documentation. keyword = 【", word, "】");
+        	return "";
         } else {
         	while (indexOf != -1) {
         		indexOf = content.indexOf(word, indexOf+1);
@@ -411,7 +417,7 @@ public class FileUtils {
 		String filePath2 = "C:\\sjwy\\text\\20190904.txt";
 		File file2 = new File(filePath2);
 		String word = "中国";
-		String codeFormat2 = getCode(filePath2);
+		String codeFormat2 = getCode(filePath);
 		getTimesByWord(file2, codeFormat2, word);
 	}
 }

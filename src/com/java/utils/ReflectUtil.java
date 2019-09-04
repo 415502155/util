@@ -14,8 +14,11 @@ import com.java.annotation.UserAnnotations;
 import com.java.constant.Constant;
 import com.java.entity.User;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 public class ReflectUtil {
 	
+	@SuppressWarnings("unused")
 	public static void reflect(Class<?> clazz, String json) throws IllegalAccessException, IllegalArgumentException, 
 		InvocationTargetException, NoSuchMethodException, SecurityException, ParseException {
 		User user = new User();
@@ -40,6 +43,7 @@ public class ReflectUtil {
 				String name = annotation.name();
 				String value = annotation.value();
 				int type = annotation.type();
+				log.info("getUserInfo annotation ", "name = " + name, "value = " + value, "type = " + type);
 			}
 		}
 		/***
@@ -51,9 +55,10 @@ public class ReflectUtil {
  		String name2 = userAnnotation.name();
   		String value2 = userAnnotation.value();
  		int type2 = userAnnotation.type();
+		log.info("UserAnnotations注解值,name：[{}], value：[{}], type：[{}]", name2 , value2, type2);
  		/***
  		 * 获取所有属性，并赋值
- 		 */
+ 		 */	
 
  		Field[] declaredFields = clazz.getDeclaredFields();
 		for (Method method : declaredMethods) {
@@ -61,6 +66,7 @@ public class ReflectUtil {
 				String fieldName = field.getName();
 				String upperCase = upperCase(fieldName);
 				String getMethod = "get" + upperCase;
+				log.info("实体类User的GET方法,get*:[{}]", getMethod);
 				String setMethod = "set" + upperCase;
 				String type = field.getGenericType().toString();
 				// System.out.println(type);
