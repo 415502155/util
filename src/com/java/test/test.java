@@ -7,7 +7,11 @@ import java.util.Date;
 import com.alibaba.fastjson.JSONObject;
 import com.java.entity.User;
 import com.java.utils.ReflectUtil;
-
+/***
+ * 通过反射set属性到User对象
+ * @author sjwy-0001
+ *
+ */
 public class test {
 	
 	public static void main(String[] args) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ParseException {
