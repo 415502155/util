@@ -15,7 +15,11 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/***
+ * 通用工具类
+ * @author sjwy-0001
+ *
+ */
 public class CommonUtils {
 
 	public static String getUUID() {
