@@ -18,6 +18,7 @@ public class DateUtils {
 	 */
 	private static String ymd_hms = "yyyy-MM-dd HH:mm:ss";
 	private static String ymd = "yyyy-MM-dd";
+	private static String ms = "mm:ss";
 	
 	private static final ThreadLocal<DateFormat> ymd_hms_date_format = new ThreadLocal<DateFormat>() {
 		protected DateFormat initialValue() {
@@ -31,6 +32,11 @@ public class DateUtils {
 		};
 	};
 	
+	private static final ThreadLocal<DateFormat> ms_date_format = new ThreadLocal<DateFormat>() {
+		protected DateFormat initialValue() {
+			return new SimpleDateFormat(ms);
+		};
+	};
     /**
      * 格式化日期 年-月-日  时:分:秒
      * 
@@ -49,6 +55,10 @@ public class DateUtils {
      */
     public static String ymdFormatDate(Date date) {
         return ymd_date_format.get().format(date);
+    }
+    
+    public static String msFormatDate(Date date) {
+        return ms_date_format.get().format(date);
     }
     
     /***

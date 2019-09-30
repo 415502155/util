@@ -30,6 +30,21 @@ public class test {
 		User user =  new User();
 		Class<? extends User> class1 = user.getClass();
 		ReflectUtil.reflect(class1, json.toJSONString());
+		
+		int[] myArray = {1, 2, 3, 4, 5};
+        doIt(myArray);
+        for (int i = 0; i < myArray.length; i++)
+        {
+            System.out.println(myArray[i] + " ");
+        }
+        
+        int[] arr = new int[9];
+        System.out.println("arr[8] ：" + arr[8]);
 	}
-
+	
+	public static void doIt( int[] z )
+    {
+        int[] A = z;
+        A[0] = 99;
+    }
 }

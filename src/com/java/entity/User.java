@@ -25,15 +25,18 @@ public class User implements Serializable {
 
 	private String mobile;
 	
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
 	private Date birthday;
 
 	private Integer is_del;
-
+	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	private Date create_time;
 	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	private Date update_time;
 	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	private Date del_time;
 	
 	@UserAnnotations(value = {@UserAnnotation(name = "张三", value = "administrator", type = 100)})
