@@ -11,7 +11,11 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
-
+/***
+ * 线程安全：日期格式化
+ * @author sjwy-0001
+ *
+ */
 public class DateUtils {
 	/***
 	 * yyyy-MM-dd HH:mm:ss 中HH代表24小时制，hh为12小时制
