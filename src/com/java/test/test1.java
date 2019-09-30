@@ -7,7 +7,11 @@ import org.apache.poi.ddf.EscherColorRef.SysIndexProcedure;
 
 import com.java.utils.CommonUtils;
 import com.java.utils.DateUtils;
-
+/***
+ * 判断当前时间是否在两个时间（HH:mm）之间
+ * @author sjwy-0001
+ *
+ */
 public class test1 {
 	public static void main(String[] args) throws ParseException {
 		String start = "08:00";
