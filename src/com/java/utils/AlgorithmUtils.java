@@ -1,7 +1,11 @@
 package com.java.utils;
 
 import java.math.BigDecimal;
-
+/***
+ * 加减乘除，大数或浮点数可能出现精度缺失，以字符串最为准确
+ * @author sjwy-0001
+ *
+ */
 public class AlgorithmUtils {
 	/**
 	 * @提供精确加法计算的add方法
