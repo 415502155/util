@@ -1,5 +1,9 @@
 package com.java.constant;
-
+/***
+ * 常量
+ * @author sjwy-0001
+ *
+ */
 public class Constant {
 	
 	public static final String JAVA_INTEGER = "class java.lang.Integer";
