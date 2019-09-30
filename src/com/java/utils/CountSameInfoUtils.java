@@ -5,7 +5,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
+/***
+ * 统计相同key值相同的数量
+ * @author sjwy-0001
+ *
+ */
 public class CountSameInfoUtils {
 	
 	
